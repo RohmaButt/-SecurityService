@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_PublishTargetUrl>D:\Work\Releases\GRMSecurity</_PublishTargetUrl>
+    <History>True|2022-03-15T15:22:18.8615841Z;True|2022-03-15T20:19:15.3437048+05:00;True|2022-03-15T20:09:02.4082748+05:00;True|2022-03-15T19:38:25.3107660+05:00;True|2022-02-15T14:33:04.4896322+05:00;True|2022-02-15T12:48:54.8969828+05:00;True|2021-11-19T18:00:17.2580659+05:00;True|2021-11-19T17:53:40.3803245+05:00;True|2021-11-19T12:30:04.4402304+05:00;True|2021-11-19T12:26:55.2250118+05:00;True|2021-11-19T12:19:26.0712057+05:00;True|2021-11-18T15:54:43.9927621+05:00;True|2021-11-17T18:49:49.6257366+05:00;True|2021-11-17T15:56:55.9162387+05:00;False|2021-11-17T15:50:57.2631723+05:00;True|2021-11-17T15:33:44.3791451+05:00;True|2021-11-17T15:32:28.4615261+05:00;True|2021-11-08T13:33:06.6224840+05:00;True|2021-11-08T13:25:01.4473098+05:00;True|2021-11-08T13:24:14.1351394+05:00;True|2021-11-08T13:23:20.0194271+05:00;True|2021-09-30T17:56:42.6247883+05:00;True|2021-09-07T23:10:56.2418321+05:00;True|2021-09-07T20:47:37.0081562+05:00;True|2021-08-31T23:29:37.7937562+05:00;True|2021-08-31T18:44:22.7277191+05:00;True|2021-08-31T18:43:46.2640029+05:00;True|2021-08-25T02:17:22.6594146+05:00;True|2021-08-22T02:05:03.2018286+05:00;</History>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="bin/Afiniti.Framework.LoggingTracing.dll">
+      <publishTime>02/20/2019 18:38:46</publishTime>
+    </File>
+    <File Include="bin/Afiniti.GRM.SecurityDTO.dll">
+      <publishTime>11/19/2021 12:26:44</publishTime>
+    </File>
+    <File Include="bin/Afiniti.GRM.SecurityDTO.dll.config">
+      <publishTime>05/13/2020 15:43:20</publishTime>
+    </File>
+    <File Include="bin/Afiniti.GRM.SecurityDTO.pdb">
+      <publishTime>11/19/2021 12:26:44</publishTime>
+    </File>
+    <File Include="bin/Afiniti.GRM.SecurityService.dll">
+      <publishTime>03/15/2022 20:22:16</publishTime>
+    </File>
+    <File Include="bin/Afiniti.GRM.SecurityService.pdb">
+      <publishTime>03/15/2022 20:22:16</publishTime>
+    </File>
+    <File Include="bin/Afiniti.GRM.Shared.dll">
+      <publishTime>04/30/2019 13:07:05</publishTime>
+    </File>
+    <File Include="bin/Afiniti.GRM.Shared.dll.config">
+      <publishTime>03/05/2019 15:28:17</publishTime>
+    </File>
+    <File Include="bin/Afiniti.GRM.Shared.pdb">
+      <publishTime>04/30/2019 13:07:05</publishTime>
+    </File>
+    <File Include="bin/App_global.asax.compiled">
+      <publishTime>03/15/2022 20:22:18</publishTime>
+    </File>
+    <File Include="bin/App_global.asax.dll">
+      <publishTime>03/15/2022 20:22:18</publishTime>
+    </File>
+    <File Include="bin/EntityFramework.dll">
+      <publishTime>05/13/2020 15:44:12</publishTime>
+    </File>
+    <File Include="bin/EntityFramework.SqlServer.dll">
+      <publishTime>05/13/2020 15:43:45</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Web.Infrastructure.dll">
+      <publishTime>05/13/2020 15:44:04</publishTime>
+    </File>
+    <File Include="bin/Newtonsoft.Json.dll">
+      <publishTime>05/13/2020 15:44:11</publishTime>
+    </File>
+    <File Include="bin/System.Web.Helpers.dll">
+      <publishTime>05/13/2020 15:44:03</publishTime>
+    </File>
+    <File Include="bin/System.Web.Mvc.dll">
+      <publishTime>05/13/2020 15:43:58</publishTime>
+    </File>
+    <File Include="bin/System.Web.Razor.dll">
+      <publishTime>05/13/2020 15:43:59</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Deployment.dll">
+      <publishTime>05/13/2020 15:44:03</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.dll">
+      <publishTime>05/13/2020 15:44:04</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Razor.dll">
+      <publishTime>05/13/2020 15:44:04</publishTime>
+    </File>
+    <File Include="Global.asax">
+      <publishTime>05/13/2020 15:43:21</publishTime>
+    </File>
+    <File Include="GRMSecurityEntities.edmx.diagram">
+      <publishTime>05/13/2020 15:43:22</publishTime>
+    </File>
+    <File Include="packages.config">
+      <publishTime>05/13/2020 15:43:22</publishTime>
+    </File>
+    <File Include="PrecompiledApp.config">
+      <publishTime>03/15/2022 20:22:16</publishTime>
+    </File>
+    <File Include="SecurityService.svc">
+      <publishTime>05/13/2020 15:43:23</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>08/25/2021 02:17:17</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

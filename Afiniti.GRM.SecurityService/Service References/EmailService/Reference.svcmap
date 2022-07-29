@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="6dfe01cc-7f6f-4094-b95a-3dbc01a19e41" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings>
+      <CollectionMapping TypeName="System.Collections.Generic.List`1" Category="List" />
+    </CollectionMappings>
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="net.tcp://aficrmvm01.satmapinc.com:8050/WindowEmailWCFService/mex" Protocol="mex" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="3c9ee5f3-1ad4-49be-a0d4-3174c8563add" SourceId="1" SourceUrl="net.tcp://aficrmvm01.satmapinc.com:8050/WindowEmailWCFService/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="14184c91-d9ae-4a37-88ff-b103283fa473" SourceId="1" SourceUrl="net.tcp://aficrmvm01.satmapinc.com:8050/WindowEmailWCFService/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="02dc496f-8f7a-4b50-9e12-cf897b60592d" SourceId="1" SourceUrl="net.tcp://aficrmvm01.satmapinc.com:8050/WindowEmailWCFService/mex" />
+    <MetadataFile FileName="Arrays.xsd" MetadataType="Schema" ID="548f4f9f-d2b0-449d-9318-bbe59bb7b22a" SourceId="1" SourceUrl="net.tcp://aficrmvm01.satmapinc.com:8050/WindowEmailWCFService/mex" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

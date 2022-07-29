@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:element name="SayHello">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SayHelloResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SayHelloResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SendEmail">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="toEmails" nillable="true" type="xs:string" />
+        <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="body" nillable="true" type="q1:ArrayOfstring" />
+        <xs:element minOccurs="0" name="template" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SendEmailResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SendEmailResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SendEmailWithDetails">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="fromEmail" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="toEmails" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="emailSubject" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="bccEmails" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="ccEmails" nillable="true" type="xs:string" />
+        <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="body" nillable="true" type="q2:ArrayOfstring" />
+        <xs:element minOccurs="0" name="template" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SendEmailWithDetailsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SendEmailWithDetailsResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SendEmailOneWay">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="toEmails" nillable="true" type="xs:string" />
+        <xs:element xmlns:q3="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="body" nillable="true" type="q3:ArrayOfstring" />
+        <xs:element minOccurs="0" name="template" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SendEmailWithDetailsOneWay">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="fromEmail" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="toEmails" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="emailSubject" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="bccEmails" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="ccEmails" nillable="true" type="xs:string" />
+        <xs:element xmlns:q4="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="body" nillable="true" type="q4:ArrayOfstring" />
+        <xs:element minOccurs="0" name="template" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

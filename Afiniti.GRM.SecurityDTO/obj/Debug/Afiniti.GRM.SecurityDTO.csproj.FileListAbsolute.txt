@@ -1,0 +1,12 @@
+D:\TRG SATMAP\Connect\Source 2013\Main v 1.0.0\Development\AppServices\SecurityService\Afiniti.GRM.SecurityDTO\bin\Debug\Afiniti.GRM.SecurityDTO.dll.config
+D:\TRG SATMAP\Connect\Source 2013\Main v 1.0.0\Development\AppServices\SecurityService\Afiniti.GRM.SecurityDTO\bin\Debug\Afiniti.GRM.SecurityDTO.dll
+D:\TRG SATMAP\Connect\Source 2013\Main v 1.0.0\Development\AppServices\SecurityService\Afiniti.GRM.SecurityDTO\bin\Debug\Afiniti.GRM.SecurityDTO.pdb
+D:\TRG SATMAP\Connect\Source 2013\Main v 1.0.0\Development\AppServices\SecurityService\Afiniti.GRM.SecurityDTO\bin\Debug\EntityFramework.dll
+D:\TRG SATMAP\Connect\Source 2013\Main v 1.0.0\Development\AppServices\SecurityService\Afiniti.GRM.SecurityDTO\bin\Debug\EntityFramework.SqlServer.dll
+D:\TRG SATMAP\Connect\Source 2013\Main v 1.0.0\Development\AppServices\SecurityService\Afiniti.GRM.SecurityDTO\bin\Debug\EntityFramework.xml
+D:\TRG SATMAP\Connect\Source 2013\Main v 1.0.0\Development\AppServices\SecurityService\Afiniti.GRM.SecurityDTO\bin\Debug\EntityFramework.SqlServer.xml
+D:\TRG SATMAP\Connect\Source 2013\Main v 1.0.0\Development\AppServices\SecurityService\Afiniti.GRM.SecurityDTO\obj\Debug\Afiniti.GRM.SecurityDTO.csproj.CoreCompileInputs.cache
+D:\TRG SATMAP\Connect\Source 2013\Main v 1.0.0\Development\AppServices\SecurityService\Afiniti.GRM.SecurityDTO\obj\Debug\Afiniti.GRM.SecurityDTO.dll
+D:\TRG SATMAP\Connect\Source 2013\Main v 1.0.0\Development\AppServices\SecurityService\Afiniti.GRM.SecurityDTO\obj\Debug\Afiniti.GRM.SecurityDTO.pdb
+D:\TRG SATMAP\Connect\Source 2013\Main v 1.0.0\Development\AppServices\SecurityService\Afiniti.GRM.SecurityDTO\obj\Debug\Afiniti.GRM.SecurityDTO.csproj.AssemblyReference.cache
+D:\TRG SATMAP\Connect\Source 2013\Main v 1.0.0\Development\AppServices\SecurityService\Afiniti.GRM.SecurityDTO\obj\Debug\Afiniti.GRM.SecurityDTO.csproj.CopyComplete

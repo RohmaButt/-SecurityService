@@ -1,0 +1,2349 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Crowd</name>
+    </assembly>
+    <members>
+        <member name="T:Crowd.Rest.Client.ClientProperties">
+            <summary>
+            Properties required for the Crowd Client.
+            Normally the properties are stored in crowd.properties file.
+            see https://docs.atlassian.com/atlassian-crowd/current/com/atlassian/crowd/service/client/AbstractClientProperties.html
+            </summary>
+        </member>
+        <member name="P:Crowd.Rest.Client.ClientProperties.ApplicationName">
+            <summary>
+            Gets the name of the application used in application authentication.
+            </summary>
+            <value>
+            The name of the application  used in application authentication.
+            </value>
+        </member>
+        <member name="P:Crowd.Rest.Client.ClientProperties.ApplicationPassword">
+            <summary>
+            Gets the application password used for authenticating the application.
+            </summary>
+            <value>
+            The application password used for authenticating the application.
+            </value>
+        </member>
+        <member name="P:Crowd.Rest.Client.ClientProperties.BaseUrl">
+            <summary>
+            Gets the base URL of the client application.
+            </summary>
+            <value>
+            The base URL of the client application.
+            <example>http://localhost:8095/crowd</example>
+            </value>
+        </member>
+        <member name="M:Crowd.Rest.Client.ClientProperties.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.ClientProperties"/> class.
+            </summary>
+            <param name="baseUrl">The base URL.</param>
+            <param name="applicationName">Name of the application.</param>
+            <param name="applicationPassword">The application password.</param>
+        </member>
+        <member name="T:Crowd.Rest.Client.CrowdClient">
+            <summary>
+            Abstract class for a Crowd Client
+            </summary>
+        </member>
+        <member name="F:Crowd.Rest.Client.CrowdClient._apiPath">
+            <summary>
+            URI for a Crowd REST API resource.
+            More information here: https://developer.atlassian.com/display/CROWDDEV/Using+the+Crowd+REST+APIs#UsingtheCrowdRESTAPIs-RESTResourcesandURIStructure
+            </summary>
+        </member>
+        <member name="F:Crowd.Rest.Client.CrowdClient._apiVersion">
+            <summary>
+            The API version
+            </summary>
+        </member>
+        <member name="F:Crowd.Rest.Client.CrowdClient._clientProperties">
+            <summary>
+            The client properties used to connect to the Crowd server
+            </summary>
+        </member>
+        <member name="F:Crowd.Rest.Client.CrowdClient._cookieJar">
+            <summary>
+            The cookies issued by the Crowd server
+            </summary>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdClient.#ctor(Crowd.Rest.Client.ClientProperties,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdRestClientManager"/> class for 
+            interacting with a remote Crowd server.
+            </summary>
+            <param name="clientProperties">The crowd properties for the client.</param>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdClient.MakeAPICall``1(System.String,System.String,System.Object)">
+            <summary>
+            Generic API call.  Expects to be able to serialize the results
+            to the specified type.
+            </summary>
+            <typeparam name="T">The specified results type</typeparam>
+            <param name="apiResource">The API resource.  Example: user</param>
+            <param name="httpMethod">The HTTP method.  Example: POST</param>
+            <param name="args">The object that will be serialized as the JSON parameters to the API call</param>
+            <returns></returns>
+            <exception cref="T:System.ApplicationException">API URI not valid - either the Uri Stem or the API resource not specified).</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdRestException"></exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdClient.HandleUserNotFound(Crowd.Rest.Client.Entity.Error,System.String)">
+            <summary>
+            Throws a CrowdUserNotFoundException if the method handled the Error. Otherwise, the method silently exits.
+            </summary>
+            <param name="error">The error to handle.</param>
+            <param name="username">The username of the user that could not be found</param>
+            <exception cref="T:Crowd.Rest.Client.CrowdUserNotFoundException">if the method handled the error</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdClient.HandleInvalidUserAuthentication(Crowd.Rest.Client.Entity.Error,System.String)">
+            <summary>
+            Throws a CrowdInvalidAuthenticationException if the method handled the Error. Otherwise, the method silently exits.
+            </summary>
+            <param name="error">The error.</param>
+            <param name="username">The username of the user that failed authentication.</param>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the method handled the error</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdClient.HandleGroupNotFound(Crowd.Rest.Client.Entity.Error,System.String)">
+            <summary>
+            Throws a CrowdGroupNotFoundException if the method handled the Error. Otherwise, the method silently exits.
+            </summary>
+            <param name="error">The error to handle.</param>
+            <param name="groupName">The name of the group that could not be found.</param>
+            <exception cref="T:Crowd.Rest.Client.CrowdGroupNotFoundException">if the method handled the error</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdClient.HandleInvalidUser(Crowd.Rest.Client.Entity.Error,Crowd.Rest.Client.Entity.User)">
+            <summary>
+            Throws a CrowdInvalidUserException if the method handled the Error. Otherwise, the method silently exits.
+            </summary>
+            <param name="error">The error to handle.</param>
+            <param name="user">The invalid user.</param>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidUserException">if the method handled the error</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdClient.HandleInvalidCredential(Crowd.Rest.Client.Entity.Error)">
+            <summary>
+            Throws a CrowdInvalidCredentialException if the method handled the Error. Otherwise, the method silently exits.
+            </summary>
+            <param name="error">The error to handle.</param>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidCredentialException">if the method handled the error</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdClient.HandleInvalidGroup(Crowd.Rest.Client.Entity.Error,Crowd.Rest.Client.Entity.Group)">
+            <summary>
+            Throws a CrowdInvalidGroupException if the method handled the Error. Otherwise, the method silently exits.
+            </summary>
+            <param name="error">The error to handle.</param>
+            <param name="group">The invalid group.</param>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidGroupException">if the method handled the error</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdClient.HandleMembershipNotFound(Crowd.Rest.Client.Entity.Error,System.String,System.String)">
+            <summary>
+            Throws a CrowdMembershipNotFoundException if the method handled the Error. Otherwise, the method silently exits.
+            </summary>
+            <param name="error">The error to handle.</param>
+            <param name="childName">Name of the child.</param>
+            <param name="parentName">Name of the parent.</param>
+            <exception cref="T:Crowd.Rest.Client.CrowdMembershipNotFoundException">if the method handled the error.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdClient.HandleMembershipAlreadyExists(Crowd.Rest.Client.Entity.Error,System.String,System.String)">
+            <summary>
+            Throws a CrowdMembershipAlreadyExistsException if the method handled the Error. Otherwise, the method silently exits.
+            </summary>
+            <param name="error">The error to handle.</param>
+            <param name="childEntity">The child entity name.</param>
+            <param name="parentEntity">The parent entity name.</param>
+            <exception cref="T:Crowd.Rest.Client.CrowdMembershipAlreadyExistsException">if the method handled the error</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdClient.HandleInvalidSsoToken(Crowd.Rest.Client.Entity.Error)">
+            <summary>
+            Throws a CrowdInvalidTokenException if the method handled the Error. Otherwise, the method silently exits.
+            </summary>
+            <param name="error">The error to handle.</param>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidTokenException">if the method handled the error</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdClient.HandleInactiveUserAccount(Crowd.Rest.Client.Entity.Error,System.String)">
+            <summary>
+            Throws a CrowdInactiveAccountException if the method handled the Error. Otherwise, the method silently exits.
+            </summary>
+            <param name="error">The error to handle.</param>
+            <param name="username">The username.</param>
+            <exception cref="T:Crowd.Rest.Client.CrowdInactiveAccountException">if the method handled the error</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdClient.HandleExpiredUserCredential(Crowd.Rest.Client.Entity.Error)">
+            <summary>
+            Throws a CrowdExpiredCredentialException if the method handled the Error. Otherwise, the method silently exits.
+            </summary>
+            <param name="error">The error to handle.</param>
+            <exception cref="T:Crowd.Rest.Client.CrowdExpiredCredentialException">if the method handled the error</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdClient.HandleInvalidEmail(Crowd.Rest.Client.Entity.Error)">
+            <summary>
+            Throws a CrowdInvalidEmailAddressException if the method handled the Error. Otherwise, the method silently exits.
+            </summary>
+            <param name="error">The error to handle.</param>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidEmailAddressException">if the method handled the error.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdClient.HandleApplicationAccessDenied(Crowd.Rest.Client.Entity.Error)">
+            <summary>
+            Throws a CrowdApplicationAccessDeniedException if the method handled the Error. Otherwise, the method silently exits.
+            </summary>
+            <param name="error">The error to handle.</param>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationAccessDeniedException">if the method handled the error</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdClient.HandleEventTokenExpiredException(Crowd.Rest.Client.Entity.Error)">
+            <summary>
+            Throws a CrowdEventTokenExpiredException if the method handled the Error. Otherwise, the method silently exits.
+            </summary>
+            <param name="error">The error to handle.</param>
+            <exception cref="T:Crowd.Rest.Client.CrowdEventTokenExpiredException">if the method handled the error.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdClient.HandleWebhookNotFound(Crowd.Rest.Client.Entity.Error,System.Int64)">
+            <summary>
+            Throws a CrowdWebhookNotFoundException if the method handled the Error. Otherwise, the method silently exits.
+            </summary>
+            <param name="error">The error to handle.</param>
+            <param name="webhookId">The id of the webhook that could not be found.</param>
+            <exception cref="T:Crowd.Rest.Client.CrowdWebhookNotFoundException">if the method handled the error</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdClient.HandleCommonExceptions(Crowd.Rest.Client.CrowdRestException)">
+            <summary>
+            Handles the exceptions common across all REST methods. This method should be used after all the other 
+            CrowdRestException handlers. The current implementation is to throw either an ApplicationAccessDenied, 
+            ApplicationNotFound, ApplicationPermissionException or OperationFailedException.
+            </summary>
+            <param name="exception">The Crowd REST Exception to handle.</param>
+            <returns>Never actually returns a CrowdException</returns>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationAccessDeniedException">if the application cannot be accessed from the clients location</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the operation.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationNotFoundException">if the application cannot be found.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the exception has caused the operation to fail.</exception>
+        </member>
+        <member name="T:Crowd.Rest.Client.Entity.Webhook">
+            <summary>
+            A Webhook is an application-provided HTTP endpoint that is pinged by Crowd to 
+            notify the occurrence of certain events.
+            </summary>
+        </member>
+        <member name="P:Crowd.Rest.Client.Entity.Webhook.OldestFailureDate">
+            <summary>
+            Gets or sets the date of the last failed delivery that has not been followed by any successful delivery.
+            </summary>
+            <value>
+            Date of the last failed delivery that has not been followed by any successful delivery. May be null if the last delivery was successful, or if no delivery has been attempted yet (i.e., new Webhooks).
+            </value>
+        </member>
+        <member name="P:Crowd.Rest.Client.Entity.Webhook.FailuresSinceLastSuccess">
+            <summary>
+            The number of consecutive failed attempts to deliver the ping to the Webhook since 
+            the last successful delivery, or since the Webhook was created.
+            </summary>
+            <value>
+            The number of consecutive failed attempts to deliver the ping to the Webhook since 
+            the last successful delivery, or since the Webhook was created. May be zero if the 
+            last delivery was successful, or if the Webhook has just been created.
+            </value>
+        </member>
+        <member name="T:Crowd.Rest.Client.Entity.Events">
+            <summary>
+            Describes a Events entity.
+            </summary>
+        </member>
+        <member name="T:Crowd.Rest.Client.Entity.GroupMembership">
+            <summary>
+            Describes a Membership.
+            </summary>
+        </member>
+        <member name="T:Crowd.Rest.Client.Entity.GroupWithAttributes">
+            <summary>
+            Describes a Group.
+            </summary>
+        </member>
+        <member name="T:Crowd.Rest.Client.Entity.GroupWithAttributesList">
+            <summary>
+            Describes a Group List.
+            </summary>
+        </member>
+        <member name="T:Crowd.Rest.Client.Entity.UserWithAttributes">
+            <summary>
+            Describes a User response.
+            </summary>
+        </member>
+        <member name="T:Crowd.Rest.Client.Entity.Error">
+            <summary>
+            Class for error response from the Crowd API
+            </summary>
+        </member>
+        <member name="T:Crowd.Rest.Client.Entity.Error.ErrorReason">
+            <summary>
+            Error responses received from the Crowd REST API.
+            See https://developer.atlassian.com/display/CROWDDEV/Using+the+Crowd+REST+APIs#UsingtheCrowdRESTAPIs-HTTPResponseCodesandErrorResponses
+            See https://docs.atlassian.com/crowd/2.8.0/com/atlassian/crowd/plugin/rest/entity/ErrorEntity.ErrorReason.html
+            </summary>
+        </member>
+        <member name="F:Crowd.Rest.Client.Entity.Error.ErrorReason.APPLICATION_ACCESS_DENIED">
+            <summary>
+            User does not have access to a particular application
+            </summary>
+        </member>
+        <member name="F:Crowd.Rest.Client.Entity.Error.ErrorReason.APPLICATION_PERMISSION_DENIED">
+            <summary>
+            Application does not have permission to perform the operation
+            </summary>
+        </member>
+        <member name="F:Crowd.Rest.Client.Entity.Error.ErrorReason.EXPIRED_CREDENTIAL">
+            <summary>
+            User credentials have expired
+            </summary>
+        </member>
+        <member name="F:Crowd.Rest.Client.Entity.Error.ErrorReason.GROUP_NOT_FOUND">
+            <summary>
+            Group is not found
+            </summary>
+        </member>
+        <member name="F:Crowd.Rest.Client.Entity.Error.ErrorReason.ILLEGAL_ARGUMENT">
+            <summary>
+            REST method is given an illegal argument
+            </summary>
+        </member>
+        <member name="F:Crowd.Rest.Client.Entity.Error.ErrorReason.INACTIVE_ACCOUNT">
+            <summary>
+            User account is inactive
+            </summary>
+        </member>
+        <member name="F:Crowd.Rest.Client.Entity.Error.ErrorReason.INVALID_CREDENTIAL">
+            <summary>
+            The supplied credential is not valid. E.g. no password given when adding a user
+            </summary>
+        </member>
+        <member name="F:Crowd.Rest.Client.Entity.Error.ErrorReason.INVALID_EMAIL">
+            <summary>
+            Given email address is not valid
+            </summary>
+        </member>
+        <member name="F:Crowd.Rest.Client.Entity.Error.ErrorReason.INVALID_GROUP">
+            <summary>
+            Given group is invalid. E.g. unknown group type, adding a group that already exists
+            </summary>
+        </member>
+        <member name="F:Crowd.Rest.Client.Entity.Error.ErrorReason.INVALID_SSO_TOKEN">
+            <summary>
+            Given SSO token is invalid
+            </summary>
+        </member>
+        <member name="F:Crowd.Rest.Client.Entity.Error.ErrorReason.INVALID_USER">
+            <summary>
+            Given user is invalid. E.g. adding a user that already exists
+            </summary>
+        </member>
+        <member name="F:Crowd.Rest.Client.Entity.Error.ErrorReason.INVALID_USER_AUTHENTICATION">
+            <summary>
+            Username/password combination for authentication is invalid
+            </summary>
+        </member>
+        <member name="F:Crowd.Rest.Client.Entity.Error.ErrorReason.MEMBERSHIP_NOT_FOUND">
+            <summary>
+            When the child-parent relationship does not exist
+            </summary>
+        </member>
+        <member name="F:Crowd.Rest.Client.Entity.Error.ErrorReason.NESTED_GROUPS_NOT_SUPPORTED">
+            <summary>
+            Nested groups are not supported
+            </summary>
+        </member>
+        <member name="F:Crowd.Rest.Client.Entity.Error.ErrorReason.OPERATION_FAILED">
+            <summary>
+            Operation failed for any other reason
+            </summary>
+        </member>
+        <member name="F:Crowd.Rest.Client.Entity.Error.ErrorReason.UNSUPPORTED_OPERATION">
+            <summary>
+            Requested operation is not supported
+            </summary>
+        </member>
+        <member name="F:Crowd.Rest.Client.Entity.Error.ErrorReason.USER_NOT_FOUND">
+            <summary>
+            User not found
+            </summary>
+        </member>
+        <member name="T:Crowd.Rest.Client.Entity.CookieConfiguration">
+            <summary>
+            Describes a Cookie Configuration response.
+            </summary>
+        </member>
+        <member name="P:Crowd.Rest.Client.Entity.CookieConfiguration.Domain">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Crowd.Rest.Client.Entity.CookieConfiguration.Secure">
+            <summary>
+            the .
+            </summary>
+        </member>
+        <member name="P:Crowd.Rest.Client.Entity.CookieConfiguration.Name">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Crowd.Rest.Client.Entity.Attribute">
+            <summary>
+            Describes an Attribute.
+            </summary>
+        </member>
+        <member name="T:Crowd.Rest.Client.Entity.Group">
+            <summary>
+            Describes a Group.
+            </summary>
+        </member>
+        <member name="T:Crowd.Rest.Client.Entity.GroupList">
+            <summary>
+            Describes a Group List.
+            </summary>
+        </member>
+        <member name="T:Crowd.Rest.Client.Entity.Link">
+            <summary>
+            Describes a link response.
+            </summary>
+        </member>
+        <member name="T:Crowd.Rest.Client.Entity.MatchMode">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Crowd.Rest.Client.Entity.MatchMode.EXACTLY_MATCHES">
+            <summary>
+            The exactly matches
+            </summary>
+        </member>
+        <member name="F:Crowd.Rest.Client.Entity.MatchMode.LESS_THAN">
+            <summary>
+            The less than
+            </summary>
+        </member>
+        <member name="F:Crowd.Rest.Client.Entity.MatchMode.GREATER_THAN">
+            <summary>
+            The greater than
+            </summary>
+        </member>
+        <member name="F:Crowd.Rest.Client.Entity.MatchMode.CONTAINS">
+            <summary>
+            The contains
+            </summary>
+        </member>
+        <member name="T:Crowd.Rest.Client.Entity.PropertySearchRestriction">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Crowd.Rest.Client.Entity.PropertySearchRestriction.Property">
+            <summary>
+            Gets or sets the property.
+            </summary>
+            <value>
+            The property.
+            </value>
+        </member>
+        <member name="P:Crowd.Rest.Client.Entity.PropertySearchRestriction.MatchMode">
+            <summary>
+            Gets or sets the match mode.
+            </summary>
+            <value>
+            The match mode.
+            </value>
+        </member>
+        <member name="P:Crowd.Rest.Client.Entity.PropertySearchRestriction.Value">
+            <summary>
+            Gets or sets the value.
+            </summary>
+            <value>
+            The value.
+            </value>
+        </member>
+        <member name="T:Crowd.Rest.Client.Entity.ValidationFactors">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Crowd.Rest.Client.Entity.ValidationFactors.validationFactors">
+            <summary>
+            Gets or sets the validation factors.
+            </summary>
+            <value>
+            The validation factors.
+            </value>
+        </member>
+        <member name="T:Crowd.Rest.Client.Entity.UserList">
+            <summary>
+            Describes a User List.
+            </summary>
+        </member>
+        <member name="T:Crowd.Rest.Client.Entity.Password">
+            <summary>
+            Describes a Password response.
+            </summary>
+        </member>
+        <member name="T:Crowd.Rest.Client.Entity.AttributeList">
+            <summary>
+            Describes an Attribute List.
+            </summary>
+        </member>
+        <member name="T:Crowd.Rest.Client.Entity.User">
+            <summary>
+            Describes a User response.
+            </summary>
+        </member>
+        <member name="T:Crowd.Rest.Client.CrowdRestClientManager">
+            <summary>
+            .NET API Wrapper for the Atlassian Crowd REST API.
+            More information here: https://developer.atlassian.com/display/CROWDDEV/Crowd+REST+Resources
+            https://docs.atlassian.com/atlassian-crowd/current/com/atlassian/crowd/integration/rest/service/RestCrowdClient.html
+            </summary>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.AuthenticateUser(System.String,System.String)">
+            <summary>
+            Authenticates a user with the server.
+            </summary>
+            <param name="username">The username of the user to authenticate.</param>
+            <param name="password">The password of the user to authenticate.</param>
+            <returns>
+            True if the user is correctly authenticated
+            </returns>
+            <exception cref="T:Crowd.Rest.Client.CrowdUserNotFoundException">if the user could not be found.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInactiveAccountException">if the user account is not active.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdExpiredCredentialException">if the user credentials have expired.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.GetCookieConfiguration">
+            <summary>
+            Gets the cookie configuration.
+            </summary>
+            <returns>
+            The cookie configuration.
+            </returns>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.GetWebhook(System.Int64)">
+            <summary>
+            Gets a Webhook endpoint URL.
+            </summary>
+            <param name="webhookId">The webhook unique identifier, , as returned by RegisterWebhook(string, string)</param>
+            <returns>The endpoint URL associated to the Webhook.</returns>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdWebhookNotFoundException">if the Webhook is not registered</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.RegisterWebhook(System.String,System.String)">
+            <summary>
+            Registers a new Webhook on the server.
+            </summary>
+            <param name="endpointUrl">The URL of the HTTP endpoint provided by the application. Crowd will ping the Webhook by issuing a body-less POST request when new events are available. The Webhook must respond with an HTTP 2xx status code.</param>
+            <param name="token">The token that Crowd will present when pinging the Webhook.</param>
+            <returns>An identifier of the Webhook, that can be used to unregister it UnregisterWebhook(long)</returns>
+            <remarks>
+            The Webhook will be called back when the Crowd server produces new events. Applications are expected to request a new event GetCurrentEventToken() after registering a Webhook, so then can obtain the new events using CrowdClient.getNewEvents(string) in the Webhook callback.
+            This operation is idempotent, i.e., an attempt to register a callback with the same endpointUrl as an existing Webhook already registered by the same application will return the identifier of the existing Webhook.
+            If an application dies, or otherwise terminates without unregistering its Webhooks, Crowd reserves its rights to eventually unregister any Webhook that is no longer responding to the pings with an HTTP 2xx status code. Crowd may implement a fault-tolerant policy for Webhooks that are temporarily unreachable, but it is the application's responsibility to maintain the connection.
+            </remarks>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.UnregisterWebhook(System.Int64)">
+            <summary>
+            Unregisters a Webhook on the server. 
+            Well-behaved applications are expected to unregister their Webhooks when they no longer
+            need them to free resources on the server. Otherwise, Crowd may unilaterally unregister
+            the non-responding Webhooks, as described.
+            </summary>
+            <param name="webhookId">The identifier of the Webhook returned by RegisterWebhook(string, string).</param>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the Webhook identifier does not match any of the Webhooks previously registered by the application.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdWebhookNotFoundException">if the Webhook is not found, or it not owned by the application, or the remote API does not support this operation</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.GetCurrentEventToken">
+            <summary>
+            Gets a token that can be used for querying events that have happened after the token was generated.
+            </summary>
+            <returns>A token that can be used for querying events that have happened after the token was generated</returns>
+            <remarks>
+            If the event token has not changed since the last call to this method, it is guaranteed 
+            that no new events have been received.
+            The format of event token is implementation specific and can change without a warning.
+            </remarks>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdUnsupportedApiException">if the remote server does not support this operation.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdIncrementalSynchronisationNotAvailableException">if the application cannot provide incremental synchronisation</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.GetNewEvents(System.String)">
+            <summary>
+            Gets an events object which contains a new eventToken and 
+            events that happened after the given eventToken was generated.
+            </summary>
+            <param name="eventToken">The event token that was retrieved by a call.</param>
+            <returns>An events object which contains a new eventToken and events that happened after the given eventToken was generated</returns>
+            <remarks>
+            If for any reason event store is unable to retrieve events that happened after the
+            event token was generated, an EventTokenExpiredException will be thrown. The caller
+            is then expected to call GetCurrentEventToken() again before asking for new events.
+            </remarks>
+            <exception cref="T:Crowd.Rest.Client.CrowdEventTokenExpiredException">if events that happened after the event token was generated can not be retrieved.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdUnsupportedApiException">if the remote server does not support this operation.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.GetGroup(System.String)">
+            <summary>
+            Get a group by name.
+            </summary>
+            <param name="groupName">Name of the group to retrieve.</param>
+            <returns>A group.</returns>
+            <exception cref="T:Crowd.Rest.Client.CrowdGroupNotFoundException">The group does not exist on the remote server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">For any other communication errors.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.GetGroupWithAttributes(System.String)">
+            <summary>
+            Get a group with attributes by name.
+            </summary>
+            <param name="groupName">Name of the group to retrieve.</param>
+            <returns>A Group with attributes.</returns>
+            <exception cref="T:Crowd.Rest.Client.CrowdGroupNotFoundException">if the group does not exist on the remote server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.AddGroup(Crowd.Rest.Client.Entity.Group)">
+            <summary>
+            Adds a group to the remote Crowd server.
+            </summary>
+            <param name="newGroup">The group to add.</param>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidGroupException">if the group is invalid. This may be because a group of the same name already exists, or does not pass the server side validation rules.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.UpdateGroup(Crowd.Rest.Client.Entity.Group)">
+            <summary>
+            Updates a group on the remote Crowd server.
+            </summary>
+            <param name="existingGroup">The existing group to update.</param>
+            <returns>The updated group.</returns>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidGroupException">The group is invalid. This may be because the group does not pass the server side validation rules.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdGroupNotFoundException">if the group does not exist on the remote server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.StoreGroupAttributes(System.String,Crowd.Rest.Client.Entity.AttributeList)">
+            <summary>
+            Stores the group's attributes on the remote Crowd server.
+            </summary>
+            <param name="groupName">Name of the group.</param>
+            <param name="attributes">Set of Attributes to store. Attributes will be added or
+            if an attribute with the same key exists will be replaced.</param>
+            <exception cref="T:Crowd.Rest.Client.CrowdGroupNotFoundException">if the group does not exist on the remote Crowd server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.GetGroupAttributes(System.String)">
+            <summary>
+            Gets the group's attributes from the remote Crowd server.
+            </summary>
+            <param name="groupName">The name for the group.</param>
+            <returns>
+            A list of attributes for the group.
+            </returns>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.RemoveGroupAttributes(System.String,System.String)">
+            <summary>
+            Removes a group attribute (set) from the server. 
+            If the attribute to be removed does not exist, no error is reported.
+            </summary>
+            <param name="groupName">The name of the group.</param>
+            <param name="attributeName">The key of the attribute to remove.</param>
+            <exception cref="T:Crowd.Rest.Client.CrowdGroupNotFoundException">the group does not exist on the remote Crowd server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.RemoveGroup(System.String)">
+            <summary>
+            Removes a group from the remote Crowd server.
+            </summary>
+            <param name="groupName">The name of the group to remove.</param>
+            <exception cref="T:Crowd.Rest.Client.CrowdGroupNotFoundException">the group does not exist on the remote Crowd server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.IsGroupDirectGroupMember(System.String,System.String)">
+            <summary>
+            Determines whether the child group is a direct member of the parent group.
+            </summary>
+            <param name="childName">The name of the child group.</param>
+            <param name="parentName">The name of the parent group.</param>
+            <returns>true if the child group is a direct member of the parent group.</returns>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.AddGroupToGroup(System.String,System.String)">
+            <summary>
+            Adds a group to a group.
+            </summary>
+            <param name="childGroup">The group to add to the parent group.</param>
+            <param name="parentGroup">The name of the group to which the child will be added to</param>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.RemoveGroupFromGroup(System.String,System.String)">
+            <summary>
+            Removes a group from a group.
+            </summary>
+            <param name="childGroup">The name of the group to be removed from the parent group.</param>
+            <param name="parentGroup">The name of the group the child group will be removed from.</param>
+            <exception cref="T:Crowd.Rest.Client.CrowdMembershipNotFoundException">if there is not parent-child relationship between the specified groups.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdGroupNotFoundException">if either group does not exist.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if for some reason the operation has failed.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.GetUsersOfGroup(System.String,System.Int32,System.Int32)">
+            <summary>
+            Gets the users who are direct members of a group.
+            </summary>
+            <param name="groupName">The name of the group.</param>
+            <param name="startIndex">The starting index of the search results.</param>
+            <param name="maxResults">The maximum number of results returned from the search.</param>
+            <returns>A list of users who are direct members of a group.</returns>
+            <exception cref="T:Crowd.Rest.Client.CrowdGroupNotFoundException">if the group could not be found.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.GetNamesOfUsersOfGroup(System.String,System.Int32,System.Int32)">
+            <summary>
+            Gets the names of users who are direct members of a group.
+            </summary>
+            <param name="groupName">The name of the group.</param>
+            <param name="startIndex">The starting index of the search results.</param>
+            <param name="maxResults">The maximum number of results returned from the search.</param>
+            <returns>List of user names for users who are direct members of a group.</returns>
+            <exception cref="T:Crowd.Rest.Client.CrowdGroupNotFoundException">if the group could not be found.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.GetChildGroupsOfGroup(System.String,System.Int32,System.Int32)">
+            <summary>
+            Gets the groups who are direct members of a specified group.
+            </summary>
+            <param name="groupName">The name of the group.</param>
+            <param name="startIndex">The starting index of the search results.</param>
+            <param name="maxResults">The maximum number of results returned from the search.</param>
+            <returns>A list of groups who are direct members of a group.</returns>
+            <exception cref="T:Crowd.Rest.Client.CrowdGroupNotFoundException">if the group could not be found.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.GetNamesOfChildGroupsOfGroup(System.String,System.Int32,System.Int32)">
+            <summary>
+            Gets the names of groups who are direct members of a group.
+            </summary>
+            <param name="groupName">The name of the group.</param>
+            <param name="startIndex">The starting index of the search results.</param>
+            <param name="maxResults">The maximum number of results returned from the search.</param>
+            <returns>List of group names for groups who are direct members of a group.</returns>
+            <exception cref="T:Crowd.Rest.Client.CrowdGroupNotFoundException">if the group could not be found.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.GetParentGroupsForGroup(System.String,System.Int32,System.Int32)">
+            <summary>
+            Gets the groups a specified group is a direct member of.
+            </summary>
+            <param name="groupName">The name of the group.</param>
+            <param name="startIndex">The starting index of the search results.</param>
+            <param name="maxResults">The maximum number of results returned from the search.</param>
+            <returns>A list of groups the group is a direct member of.</returns>
+            <exception cref="T:Crowd.Rest.Client.CrowdGroupNotFoundException">if the group could not be found.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.GetNamesOfParentGroupsForGroup(System.String,System.Int32,System.Int32)">
+            <summary>
+            Gets the names of the groups a specified group is a direct member of.
+            </summary>
+            <param name="groupName">The name of the group.</param>
+            <param name="startIndex">The starting index of the search results.</param>
+            <param name="maxResults">The maximum number of results returned from the search.</param>
+            <returns>List of group names for the groups the group is a direct member of.</returns>
+            <exception cref="T:Crowd.Rest.Client.CrowdGroupNotFoundException">if the group could not be found.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.GetNestedUsersOfGroup(System.String,System.Int32,System.Int32)">
+            <summary>
+            Gets the users who are nested members of a group.
+            </summary>
+            <param name="groupName">The name of the group.</param>
+            <param name="startIndex">The starting index of the search results.</param>
+            <param name="maxResults">The maximum number of results returned from the search.</param>
+            <returns>List of users who are nested members of a group.</returns>
+            <exception cref="T:Crowd.Rest.Client.CrowdGroupNotFoundException">if the group could not be found.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.GetNamesOfNestedUsersOfGroup(System.String,System.Int32,System.Int32)">
+            <summary>
+            Gets the names of users who are nested members of a group.
+            </summary>
+            <param name="groupName">The name of the group.</param>
+            <param name="startIndex">The starting index of the search results.</param>
+            <param name="maxResults">The maximum number of results returned from the search.</param>
+            <returns>List of names for the users who are nested members of a group.</returns>
+            <exception cref="T:Crowd.Rest.Client.CrowdGroupNotFoundException">if the group could not be found.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.GetNestedChildGroupsOfGroup(System.String,System.Int32,System.Int32)">
+            <summary>
+            Gets the groups that are nested members of the specified group.
+            </summary>
+            <param name="groupName">The name of the group.</param>
+            <param name="startIndex">The starting index of the search results.</param>
+            <param name="maxResults">The maximum number of results returned from the search.</param>
+            <returns>List of groups that are nested members of a group.</returns>
+            <exception cref="T:Crowd.Rest.Client.CrowdGroupNotFoundException">if the group could not be found.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.GetNamesofNestedChildGroupsOfGroup(System.String,System.Int32,System.Int32)">
+            <summary>
+            Gets the names of the groups that are nested members of the specified group.
+            </summary>
+            <param name="groupName">The name of the group.</param>
+            <param name="startIndex">The starting index of the search results.</param>
+            <param name="maxResults">The maximum number of results returned from the search.</param>
+            <returns>List of names for the groups that are nested members of a group.</returns>
+            <exception cref="T:Crowd.Rest.Client.CrowdGroupNotFoundException">if the group could not be found.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.GetParentGroupsForNestedGroup(System.String,System.Int32,System.Int32)">
+            <summary>
+            Gets the groups that a specified group is a nested member of.
+            </summary>
+            <param name="groupName">Name of the group.</param>
+            <param name="startIndex">The start index.</param>
+            <param name="maxResults">The maximum results.</param>
+            <returns>A list of groups that a group is a nested member of.</returns>
+            <exception cref="T:Crowd.Rest.Client.CrowdGroupNotFoundException">if the group could not be found.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.GetNamesOfParentGroupsForNestedGroup(System.String,System.Int32,System.Int32)">
+            <summary>
+            Gets the names of the groups that a specified group is a nested member of.
+            </summary>
+            <param name="groupName">Name of the group.</param>
+            <param name="startIndex">The start index.</param>
+            <param name="maxResults">The maximum results.</param>
+            <returns>A list of names of the groups that a group is a nested member of.</returns>
+            <exception cref="T:Crowd.Rest.Client.CrowdGroupNotFoundException">if the group could not be found.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.GetMemberships">
+            <summary>
+            Gets the full group membership details for all groups with all direct user members and child groups.
+            </summary>
+            <returns>A list of the memberships for all groups.</returns>
+            <remarks>
+            The result may be large and this operation may be slow.
+            This method is only supported when the server supports version 1.1 of the user management API. 
+            Clients should be ready to catch UnsupportedCrowdApiException and fall back to another technique
+            if they need to remain backwards compatible.
+            </remarks>
+            <exception cref="T:Crowd.Rest.Client.CrowdUnsupportedApiException">if the server does not support version 1.1 of the user management API.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.SearchUsers(Crowd.Rest.Client.Entity.PropertySearchRestriction,System.Int32,System.Int32)">
+            <summary>
+            Searches for users matching the specified criteria.
+            </summary>
+            <param name="searchRestriction">The search criteria.</param>
+            <param name="startIndex">The starting index of the search results.</param>
+            <param name="maxResults">The maximum number of results returned from the search.</param>
+            <returns>List of users satisfying the search restriction.</returns>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.SearchUsers(System.String,System.Int32,System.Int32)">
+            <summary>
+            Searches for users matching the specified criteria.
+            </summary>
+            <param name="searchRestriction">The search criteria using Crowd Query Language <see cref="!:https://developer.atlassian.com/display/CROWDDEV/Crowd+Query+Language"/>.</param>
+            <param name="startIndex">The starting index of the search results.</param>
+            <param name="maxResults">The maximum number of results returned from the search.</param>
+            <returns>List of users satisfying the search restriction.</returns>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.SearchUserNames(Crowd.Rest.Client.Entity.PropertySearchRestriction,System.Int32,System.Int32)">
+            <summary>
+            Searches for usernames matching the search criteria.
+            </summary>
+            <param name="searchRestriction">The search criteria.</param>
+            <param name="startIndex">The starting index of the search results.</param>
+            <param name="maxResults">The maximum number of results returned from the search.</param>
+            <returns>List of usernames satisfying the search restriction.</returns>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.SearchUserNames(System.String,System.Int32,System.Int32)">
+            <summary>
+            Searches for usernames matching the specified criteria.
+            </summary>
+            <param name="searchRestriction">The search criteria using Crowd Query Language <see cref="!:https://developer.atlassian.com/display/CROWDDEV/Crowd+Query+Language"/>.</param>
+            <param name="startIndex">The starting index of the search results.</param>
+            <param name="maxResults">The maximum number of results returned from the search.</param>
+            <returns>List of users satisfying the search restriction.</returns>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.SearchGroups(Crowd.Rest.Client.Entity.PropertySearchRestriction,System.Int32,System.Int32)">
+            <summary>
+            Searches for groups matching the specified criteria.
+            </summary>
+            <param name="searchRestriction">The search criteria.</param>
+            <param name="startIndex">The starting index of the search results.</param>
+            <param name="maxResults">The maximum number of results returned from the search.</param>
+            <returns>List of groups satisfying the search restriction.</returns>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.SearchGroupsWithAttributes(Crowd.Rest.Client.Entity.PropertySearchRestriction,System.Int32,System.Int32)">
+            <summary>
+            Searches for groups matching the specified criteria.
+            </summary>
+            <param name="searchRestriction">The search criteria.</param>
+            <param name="startIndex">The starting index of the search results.</param>
+            <param name="maxResults">The maximum number of results returned from the search.</param>
+            <returns>List of groups with attributes satisfying the search restriction.</returns>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.SearchGroupNames(Crowd.Rest.Client.Entity.PropertySearchRestriction,System.Int32,System.Int32)">
+            <summary>
+            Searches for group names matching the search criteria.
+            </summary>
+            <param name="searchRestriction">The search criteria.</param>
+            <param name="startIndex">The starting index of the search results.</param>
+            <param name="maxResults">The maximum number of results returned from the search.</param>
+            <returns>List of group names satisfying the search restriction.</returns>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.FindUserFromSSOToken(System.String)">
+            <summary>
+            Finds the user from the specified user token.
+            </summary>
+            <param name="token">The user token used to find the authenticated user.</param>
+            <returns>User associated with the token.</returns>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidTokenException">if the provided token is not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.AuthenticateSSOUser(Crowd.Rest.Client.Entity.AuthenticationContext)">
+            <summary>
+            Authenticates a Single-Sign-On (SSO) User.
+            </summary>
+            <param name="authenticationContext">The user's authentication details.</param>
+            <returns>The SSO token if successful.</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationAccessDeniedException">if the user does not have access to authenticate against the application.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdExpiredCredentialException">if the user password has expired and the user is required to change their password.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInactiveAccountException">if the user account is inactive.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.AuthenticateSSOUser(Crowd.Rest.Client.Entity.AuthenticationContext,System.Int64)">
+            <summary>
+            Authenticates a Single-Sign-On (SSO) User.
+            </summary>
+            <param name="authenticationContext">The user's authentication details.</param>
+            <param name="duration">The requested duration of the new token (in seconds).</param>
+            <returns>
+            The SSO token if successful.
+            </returns>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationAccessDeniedException">if the user does not have access to authenticate against the application.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdExpiredCredentialException">if the user password has expired and the user is required to change their password.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInactiveAccountException">if the user account is inactive.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.AuthenticateSSOUserWithoutValidatingPassword(Crowd.Rest.Client.Entity.AuthenticationContext)">
+            <summary>
+            Authenticates a Single-Sign-On (SSO) User without validating password.
+            </summary>
+            <param name="authenticationContext">The user's authentication details.</param>
+            <returns>The SSO token if successful.</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationAccessDeniedException">if the user does not have access to authenticate against the application.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdExpiredCredentialException">if the user password has expired and the user is required to change their password.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInactiveAccountException">if the user account is inactive.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.ValidateSSOAuthentication(System.String)">
+            <summary>
+            Validates the SSO authentication. Throws InvalidAuthenticationException if the SSO authentication is not valid.
+            </summary>
+            <param name="token">Crowd SSO token.</param>
+            <exception cref="T:Crowd.Rest.Client.CrowdInactiveAccountException">if the user account is inactive.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.ValidateSSOAuthentication(System.String,Crowd.Rest.Client.Entity.ValidationFactors)">
+            <summary>
+            Validates the SSO authentication. Throws InvalidAuthenticationException if the SSO authentication is not valid.
+            </summary>
+            <param name="token">Crowd SSO token.</param>
+            <param name="validationFactors">Details of where the user's come from. If presented, must match those presented during authentication.</param>
+            <exception cref="T:Crowd.Rest.Client.CrowdInactiveAccountException">if the user account is inactive.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.ValidateSSOAuthenticationAndGetSession(System.String)">
+            <summary>
+            Validates the SSO authentication. Throws InvalidAuthenticationException if the SSO authentication is not valid.
+            </summary>
+            <param name="token">Crowd SSO token.</param>
+            <returns>The current session.</returns>
+            <exception cref="T:Crowd.Rest.Client.CrowdInactiveAccountException">if the user account is inactive.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.ValidateSSOAuthenticationAndGetSession(System.String,Crowd.Rest.Client.Entity.ValidationFactors)">
+            <summary>
+            Validates the SSO authentication. Throws InvalidAuthenticationException if the SSO authentication is not valid.
+            </summary>
+            <param name="token">Crowd SSO token.</param>
+            <param name="validationFactors">Details of where the user's come from. If presented, must match those presented during authentication.</param>
+            <returns>The current session.</returns>
+            <exception cref="T:Crowd.Rest.Client.CrowdInactiveAccountException">if the user account is inactive.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.InvalidateSSOToken(System.String)">
+            <summary>
+            Invalidates the sesson token.
+            </summary>
+            <param name="token">The token.</param>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.InvalidateSSOTokensForUser(System.String,System.String)">
+            <summary>
+            Invalidates all tokens for a given user name.
+            </summary>
+            <param name="username">The name of the user whose sessions will be invalidated.</param>
+            <param name="exclude">The token to be excluded from invalidation (i.e. saved).</param>
+            <exception cref="T:Crowd.Rest.Client.CrowdUnsupportedApiException">if the remote server does not support this operation.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.GetUser(System.String)">
+            <summary>
+            Gets a user by username.
+            </summary>
+            <param name="username">Name of the user to retrieve.</param>
+            <returns>
+            A User
+            </returns>
+            <exception cref="T:Crowd.Rest.Client.CrowdUserNotFoundException">if the user is not found.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.GetUserWithAttributes(System.String)">
+            <summary>
+            Gets a user with attributes by username.
+            </summary>
+            <param name="username">Name of the user to retrieve.</param>
+            <returns>
+            A User
+            </returns>
+            <exception cref="T:Crowd.Rest.Client.CrowdUserNotFoundException">if the user is not found.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.AddUser(Crowd.Rest.Client.Entity.User)">
+            <summary>
+            Adds a new User to the remote Crowd server.
+            </summary>
+            <param name="newUser">The user to add</param>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidUserException">if the user is invalid. This may be because a user of the same name already exists, or does not pass the server side validation rules.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidCredentialException">if the password is invalid. It must conform to the rules set on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.UpdateUser(Crowd.Rest.Client.Entity.User)">
+            <summary>
+            Updates a user on the remote Crowd server.
+            </summary>
+            <param name="existingUser">The existing user to update</param>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidUserException">the details of the user to be updated are invalid. This may be because the user details do not pass the server side validation rules.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdUserNotFoundException">if the user does not exist on the remote Crowd server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.UpdateUserPassword(System.String,System.String)">
+            <summary>
+            Updates the user's password on the remote Crowd server.
+            </summary>
+            <param name="username">The username of the user to update.</param>
+            <param name="password">The new password.</param>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidCredentialException">if the password is invalid. It must conform to the rules set on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdUserNotFoundException">if the user does not exist on the remote Crowd server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.RequestPasswordReset(System.String)">
+            <summary>
+            Requests the password reset.
+            </summary>
+            <param name="username">The username of the user.</param>
+            <exception cref="T:Crowd.Rest.Client.CrowdUserNotFoundException">if the user does not exist.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidEmailAddressException">if the user does not have a valid email to send the reset password link to.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.RequestUsernames(System.String)">
+            <summary>
+            Sends an email reminder of the usernames associated with the given email address.
+            No email will be sent if there are no usernames associated with a given email.
+            </summary>
+            <param name="email">The email address of the user.</param>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidEmailAddressException">if the email is not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.StoreUserAttributes(System.String,Crowd.Rest.Client.Entity.AttributeList)">
+            <summary>
+            Stores the user's attributes on the remote Crowd server.
+            </summary>
+            <param name="username">The username for the user.</param>
+            <param name="attributes">The set of Attributes to store. Attributes will be added.</param>
+            <exception cref="T:Crowd.Rest.Client.CrowdUserNotFoundException">if the user does not exist on the remote Crowd server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.GetUserAttributes(System.String)">
+            <summary>
+            Gets the user's attributes from the remote Crowd server.
+            </summary>
+            <param name="username">The username for the user.</param>
+            <returns>A list of attributes for the user</returns>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.RemoveUserAttributes(System.String,System.String)">
+            <summary>
+            Removes a user attribute from the server. If the attribute to be removed does not exist, no error is reported.
+            </summary>
+            <param name="username">The username of the user.</param>
+            <param name="attributeName">The key of the attribute.</param>
+            <exception cref="T:Crowd.Rest.Client.CrowdUserNotFoundException">if the user does not exist on the remote Crowd server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.RemoveUser(System.String)">
+            <summary>
+            Removes a user from the remote Crowd server.
+            </summary>
+            <param name="username">The username of the user to remove.</param>
+            <exception cref="T:Crowd.Rest.Client.CrowdUserNotFoundException">if the user does not exist on the remote Crowd server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.IsUserDirectGroupMember(System.String,System.String)">
+            <summary>
+            Determines whether a user is a direct member of a group.
+            </summary>
+            <param name="username">The username.</param>
+            <param name="groupName">The name of the group.</param>
+            <returns>true if the user is a direct member of the group.</returns>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.IsUserNestedGroupMember(System.String,System.String)">
+            <summary>
+            Determines whether a user is a nested member of a group.
+            </summary>
+            <param name="username">The username.</param>
+            <param name="groupName">The name of the group.</param>
+            <returns>true if the user is a nested member of the group.</returns>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.AddUserToGroup(System.String,System.String)">
+            <summary>
+            Adds a user to a group.
+            </summary>
+            <param name="username">The username of the user to add to the group.</param>
+            <param name="groupName">The name of the group to be added to.</param>
+            <exception cref="T:Crowd.Rest.Client.CrowdGroupNotFoundException">if the group does not exist.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdUserNotFoundException">if the user does not exist.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdMembershipAlreadyExistsException">if the user is already a member fo the group.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.RemoveUserFromGroup(System.String,System.String)">
+            <summary>
+            Removes a user from a group.
+            </summary>
+            <param name="username">The username of the user to add to the group.</param>
+            <param name="groupName">The name of the group to be added to.</param>
+            <exception cref="T:Crowd.Rest.Client.CrowdMembershipNotFoundException">if the membership does not exist.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdGroupNotFoundException">if the group does not exist.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdUserNotFoundException">if the user does not exist.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.GetGroupsForUser(System.String,System.Int32,System.Int32)">
+            <summary>
+            Gets the groups that a user is a direct member of.
+            </summary>
+            <param name="username">The username for a user.</param>
+            <param name="startIndex">The starting index of the search results.</param>
+            <param name="maxResults">The maximum number of results returned from the search.</param>
+            <returns>A list of groups that the user is a direct member of.</returns>
+            <exception cref="T:Crowd.Rest.Client.CrowdUserNotFoundException">if the user could not be found.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.GetNamesOfGroupsForUser(System.String,System.Int32,System.Int32)">
+            <summary>
+            Gets the names of the groups a user is a direct member of.
+            </summary>
+            <param name="groupName">The name of the group.</param>
+            <param name="startIndex">The starting index of the search results.</param>
+            <param name="maxResults">The maximum number of results returned from the search.</param>
+            <returns>List of group names the user is a direct member of.</returns>
+            <exception cref="T:Crowd.Rest.Client.CrowdUserNotFoundException">if the user could not be found.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.GetGroupsForNestedUser(System.String,System.Int32,System.Int32)">
+            <summary>
+            Gets the groups that a user is a nested member of.
+            </summary>
+            <param name="username">The username of a user.</param>
+            <param name="startIndex">The starting index of the search results.</param>
+            <param name="maxResults">The maximum number of results returned from the search.</param>
+            <returns>A list of groups that a user is a nested member of.</returns>
+            <exception cref="T:Crowd.Rest.Client.CrowdUserNotFoundException">if the user could not be found.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.GetNamesOfGroupsForNestedUser(System.String,System.Int32,System.Int32)">
+            <summary>
+            Gets the names of groups that a user is a nested member of.
+            </summary>
+            <param name="username">The username of a user.</param>
+            <param name="startIndex">The starting index of the search results.</param>
+            <param name="maxResults">The maximum number of results returned from the search.</param>
+            <returns>A list of names of the groups that a user is a nested member of.</returns>
+            <exception cref="T:Crowd.Rest.Client.CrowdUserNotFoundException">if the user could not be found.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the operation has failed for any other reason, including invalid arguments and the operation not being supported on the server.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.TestConnection">
+            <summary>
+            Tests if the connection to the crowd server is OK. 
+            </summary>
+            <remarks>
+            This test uses a user search to validate the connection. 
+            It will fail if the application does not have permission to perform this very basic operation.
+            </remarks>
+            <exception cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException">if the application is not permitted to perform the requested operation on the server.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">if the application and password are not valid.</exception>
+            <exception cref="T:Crowd.Rest.Client.CrowdOperationFailedException">if the test fails.</exception>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.#ctor(System.String,System.String,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdRestClientManager" /> class.
+            </summary>
+            <param name="baseUrl">The base URL.</param>
+            <param name="applicationName">Name of the application.</param>
+            <param name="applicationPassword">The application password.</param>
+            <param name="apiVersion">The API version.</param>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdRestClientManager"/> class.
+            </summary>
+            <param name="baseUrl">The base URL.</param>
+            <param name="applicationName">Name of the application.</param>
+            <param name="applicationPassword">The application password.</param>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.#ctor(Crowd.Rest.Client.ClientProperties,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdRestClientManager" /> class for
+            interacting with a remote Crowd server.
+            </summary>
+            <param name="clientProperties">The crowd properties for the client.</param>
+            <param name="apiVersion">The API version for the client</param>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestClientManager.#ctor(Crowd.Rest.Client.ClientProperties)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdRestClientManager"/> class for 
+            interacting with a remote Crowd server.
+            </summary>
+            <param name="clientProperties">The crowd properties for the client.</param>
+        </member>
+        <member name="T:Crowd.Rest.Client.EntityTranslator">
+            <summary>
+            Translates between Crowd REST entities.
+            </summary>
+        </member>
+        <member name="M:Crowd.Rest.Client.EntityTranslator.ToAttributeList(Crowd.Rest.Client.Entity.AttributeList)">
+            <summary>
+            Transforms a AttributeList to a list of attributes.
+            </summary>
+            <param name="groupList">The AttributeList to transform.</param>
+            <returns>A list of attributes</returns>
+        </member>
+        <member name="M:Crowd.Rest.Client.EntityTranslator.ToGroupList(Crowd.Rest.Client.Entity.GroupList)">
+            <summary>
+            Transforms a GroupList to a list of groups.
+            </summary>
+            <param name="groupList">The GroupList to transform.</param>
+            <returns>A list of groups</returns>
+        </member>
+        <member name="M:Crowd.Rest.Client.EntityTranslator.ToNameList(Crowd.Rest.Client.Entity.GroupList)">
+            <summary>
+            Transforms a GroupList to a list of group names.
+            </summary>
+            <param name="groupList">The GroupList to transform.</param>
+            <returns>A list of group names</returns>
+        </member>
+        <member name="M:Crowd.Rest.Client.EntityTranslator.ToGroupList(Crowd.Rest.Client.Entity.GroupWithAttributesList)">
+            <summary>
+            Transforms a GroupWithAttributesList to a list of groups.
+            </summary>
+            <param name="groupWithAttributesList">The GroupWithAttributesList to transform.</param>
+            <returns>A list of groups with attributes</returns>
+        </member>
+        <member name="M:Crowd.Rest.Client.EntityTranslator.ToCql(Crowd.Rest.Client.Entity.PropertySearchRestriction)">
+            <summary>
+            Transforms a PropertySearchRestriction to a Crowd Query Language.
+            </summary>
+            <param name="searchRestriction">The PropertySearchRestriction to transform.</param>
+            <returns>A list of groups</returns>
+        </member>
+        <member name="M:Crowd.Rest.Client.EntityTranslator.ToUserList(Crowd.Rest.Client.Entity.UserList)">
+            <summary>
+            Transforms a UserList to a list of users.
+            </summary>
+            <param name="userList">The UserList to transform.</param>
+            <returns>A list of user</returns>
+        </member>
+        <member name="M:Crowd.Rest.Client.EntityTranslator.ToNameList(Crowd.Rest.Client.Entity.UserList)">
+            <summary>
+            Transforms a UserList to a list of user names.
+            </summary>
+            <param name="userList">The UserList to transform.</param>
+            <returns>A list of user names</returns>
+        </member>
+        <member name="T:Crowd.Rest.Client.CrowdWebhookNotFoundException">
+            <summary>
+            Thrown when the specified Webhook could not be found.
+            </summary>
+        </member>
+        <member name="P:Crowd.Rest.Client.CrowdWebhookNotFoundException.WebhookId">
+            <summary>
+            Gets the webhook identifier.
+            </summary>
+            <value>
+            The webhook identifier.
+            </value>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdWebhookNotFoundException.#ctor(System.Int64)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdWebhookNotFoundException"/> class.
+            </summary>
+            <param name="webhookId">The webhook identifier.</param>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdWebhookNotFoundException.#ctor(System.Int64,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdWebhookNotFoundException"/> class.
+            </summary>
+            <param name="webhookId">The webhook identifier.</param>
+            <param name="innerException">The inner exception.</param>
+        </member>
+        <member name="T:Crowd.Rest.Client.CrowdEventTokenExpiredException">
+            <summary>
+            Thrown when an event token is either not recognised or has expired.
+            </summary>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdEventTokenExpiredException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdEventTokenExpiredException"/> class.
+            </summary>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdEventTokenExpiredException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdEventTokenExpiredException"/> class.
+            </summary>
+            <param name="message">The message.</param>
+        </member>
+        <member name="T:Crowd.Rest.Client.CrowdApplicationAccessDeniedException">
+            <summary>
+            Thrown to indicate that a user does not have access to authenticate against an application.
+            </summary>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdApplicationAccessDeniedException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdApplicationAccessDeniedException"/> class.
+            </summary>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdApplicationAccessDeniedException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdApplicationAccessDeniedException"/> class.
+            </summary>
+            <param name="message">The message.</param>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdApplicationAccessDeniedException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdApplicationAccessDeniedException"/> class.
+            </summary>
+            <param name="message">The message.</param>
+            <param name="innerException">The inner exception.</param>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdApplicationAccessDeniedException.#ctor(System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdApplicationAccessDeniedException"/> class.
+            </summary>
+            <param name="innerException">The inner exception.</param>
+        </member>
+        <member name="T:Crowd.Rest.Client.CrowdApplicationNotFoundException">
+            <summary>
+            Thrown when an application is not found.
+            </summary>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdApplicationNotFoundException.#ctor(System.String)">
+            <summary>
+            Constructs a new application not found exception with an application name.
+            </summary>
+            <param name="applicationName">Name of the application.</param>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdApplicationNotFoundException.#ctor(System.String,System.Exception)">
+            <summary>
+            Constructs a new application not found exception with an application name and
+            cause.
+            </summary>
+            <param name="applicationName">Name of the application.</param>
+            <param name="innerException">the cause (which is saved for later retrieval by the
+                    {@link #getCause()} method).  (A null value is
+                    permitted, and indicates that the cause is nonexistent or
+                    unknown.)</param>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdApplicationNotFoundException.#ctor(System.Int64)">
+            <summary>
+            Constructs a new application not found exception with an application id.
+            </summary>
+            <param name="id">Id of the application.</param>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdApplicationNotFoundException.#ctor(System.Int64,System.Exception)">
+            <summary>
+            Constructs a new application not found exception with an application id and
+            cause.
+            </summary>
+            <param name="id">Id of the application.</param>
+            <param name="innerException">the cause (which is saved for later retrieval by the
+                    {@link #getCause()} method).  (A <tt>null</tt> value is
+                    permitted, and indicates that the cause is nonexistent or
+                    unknown.)</param>
+        </member>
+        <member name="T:Crowd.Rest.Client.CrowdApplicationPermissionException">
+            <summary>
+            Thrown to indicate that an Application does not have the required permission to perform the operation.
+            </summary>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdApplicationPermissionException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException"/> class.
+            </summary>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdApplicationPermissionException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException"/> class.
+            </summary>
+            <param name="message">The message.</param>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdApplicationPermissionException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException"/> class.
+            </summary>
+            <param name="message">The message.</param>
+            <param name="innerException">The inner exception.</param>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdApplicationPermissionException.#ctor(System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdApplicationPermissionException"/> class.
+            </summary>
+            <param name="innerException">The inner exception.</param>
+        </member>
+        <member name="T:Crowd.Rest.Client.CrowdException">
+            <summary>
+            <code>CrowdException</code> is the base class of Crowd-specific exceptions that must be caught.
+            This allows consumers of Crowd services to catch all checked exceptions with only one catch block.
+            </summary>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdException"/> class.
+            </summary>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdException"/> class.
+            </summary>
+            <param name="message">The message that describes the error.</param>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdException"/> class.
+            </summary>
+            <param name="message">The error message that explains the reason for the exception.</param>
+            <param name="innerException">The exception that is the cause of the current exception, or a null reference (Nothing in Visual Basic) if no inner exception is specified.</param>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdException.#ctor(System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdException"/> class.
+            </summary>
+            <param name="innerException">The inner exception.</param>
+        </member>
+        <member name="T:Crowd.Rest.Client.CrowdExpiredCredentialException">
+            <summary>
+            Thrown when the credentials have expired. This exception should only be thrown when the authentication is successful
+            using the old credentials.
+            </summary>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdExpiredCredentialException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdExpiredCredentialException"/> class.
+            </summary>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdExpiredCredentialException.#ctor(System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdExpiredCredentialException"/> class.
+            </summary>
+            <param name="innerException">The inner exception.</param>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdExpiredCredentialException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdExpiredCredentialException"/> class.
+            </summary>
+            <param name="message">The message.</param>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdExpiredCredentialException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdExpiredCredentialException"/> class.
+            </summary>
+            <param name="message">The message.</param>
+            <param name="innerException">The inner exception.</param>
+        </member>
+        <member name="T:Crowd.Rest.Client.CrowdFailedAuthenticationException">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdFailedAuthenticationException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdFailedAuthenticationException"/> class.
+            </summary>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdFailedAuthenticationException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdFailedAuthenticationException"/> class.
+            </summary>
+            <param name="message">The message.</param>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdFailedAuthenticationException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdFailedAuthenticationException"/> class.
+            </summary>
+            <param name="message">The message.</param>
+            <param name="innerException">The inner exception.</param>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdFailedAuthenticationException.#ctor(System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdFailedAuthenticationException"/> class.
+            </summary>
+            <param name="innerException">The inner exception.</param>
+        </member>
+        <member name="T:Crowd.Rest.Client.CrowdGroupNotFoundException">
+            <summary>
+            Thrown when the specified group could not be found.
+            </summary>
+        </member>
+        <member name="P:Crowd.Rest.Client.CrowdGroupNotFoundException.GroupName">
+            <summary>
+            Gets the name of the group.
+            </summary>
+            <value>
+            The name of the group.
+            </value>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdGroupNotFoundException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdGroupNotFoundException"/> class.
+            </summary>
+            <param name="groupName">Name of the group.</param>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdGroupNotFoundException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdGroupNotFoundException"/> class.
+            </summary>
+            <param name="groupName">Name of the group.</param>
+            <param name="innerException">The inner exception.</param>
+        </member>
+        <member name="T:Crowd.Rest.Client.CrowdInactiveAccountException">
+            <summary>
+            Thrown when the account is inactive.
+            </summary>
+        </member>
+        <member name="P:Crowd.Rest.Client.CrowdInactiveAccountException.Name">
+            <summary>
+            Gets the name.
+            </summary>
+            <value>
+            The name.
+            </value>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdInactiveAccountException.#ctor(System.String)">
+            <summary>
+            Constructs a new InvalidAccountException.
+            <param name="name">name of the account</param>
+            </summary>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdInactiveAccountException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdInactiveAccountException"/> class.
+            </summary>
+            <param name="name">The name.</param>
+            <param name="innerException">The inner exception.</param>
+        </member>
+        <member name="T:Crowd.Rest.Client.CrowdIncrementalSynchronisationNotAvailableException">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdIncrementalSynchronisationNotAvailableException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdIncrementalSynchronisationNotAvailableException"/> class.
+            </summary>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdIncrementalSynchronisationNotAvailableException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdIncrementalSynchronisationNotAvailableException"/> class.
+            </summary>
+            <param name="message">The message.</param>
+        </member>
+        <member name="T:Crowd.Rest.Client.CrowdInvalidAuthenticationException">
+            <summary>
+            Thrown when the attempted authentication is not valid.
+            </summary>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdInvalidAuthenticationException.#ctor(System.String)">
+            <summary>
+            Constructs a new <code>CrowdInvalidAuthenticationException</code> with the specified detail message.
+            <param name="message">detail message</param>
+            </summary>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdInvalidAuthenticationException.#ctor(System.String,System.Exception)">
+            <summary>
+            Constructs a new <code>CrowdInvalidAuthenticationException</code> with the specified detail message and cause.
+            <param name="message">detail message</param>
+            <param name="innerException">the inner exception</param>
+            </summary>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdInvalidAuthenticationException.#ctor(System.Exception)">
+            <summary>
+            Constructs a new <code>CrowdInvalidAuthenticationException</code> with the specified cause.
+            <param name="innerException">the inner exception</param>
+            </summary>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdInvalidAuthenticationException.NewInstanceWithName(System.String)">
+            <summary>
+            Creates a new instance of an <code>CrowdInvalidAuthenticationException</code> with a default detail message using the
+            name of the entity that failed to authenticate.
+            </summary>
+            <param name="name">name of entity</param>
+            <returns>a new instance of <code>CrowdInvalidAuthenticationException</code></returns>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdInvalidAuthenticationException.NewInstanceWithName(System.String,System.Exception)">
+            <summary>
+            Creates a new instance of an <code>CrowdInvalidAuthenticationException</code> with a default detail message using the
+            name of the entity that failed to authenticate, and a cause.
+            </summary>
+            <param name="name">name of entity</param>
+            <param name="innerException">the cause</param>
+            <returns>new instance of <code>CrowdInvalidAuthenticationException</code></returns>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdInvalidAuthenticationException.NewInstanceWithNameAndDescriptionFromCause(System.String,System.Exception)">
+            <summary>
+            News the instance with name and description from cause.
+            </summary>
+            <param name="name">The name.</param>
+            <param name="innerException">The inner exception.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Crowd.Rest.Client.CrowdInvalidCredentialException">
+            <summary>
+            Thrown when the supplied credential is not valid.
+            </summary>
+        </member>
+        <member name="P:Crowd.Rest.Client.CrowdInvalidCredentialException.PolicyDescription">
+            <summary>
+            a description of the policy that has been violated, if available. If such description is
+            not available, this method returns null. In that case, refer to <see cref="P:Crowd.Rest.Client.CrowdInvalidCredentialException.PolicyDescription"/> for a general
+            description of the exception.
+            </summary>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdInvalidCredentialException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdInvalidCredentialException"/> class.
+            </summary>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdInvalidCredentialException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdInvalidCredentialException"/> class.
+            </summary>
+            <param name="message">The message that describes the error.</param>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdInvalidCredentialException.#ctor(System.String,System.String)">
+            <summary>
+            Use this constructor when you can identify a specific policy that has been violated.
+            If the policy is not known, use one of the other constructors.
+            </summary>
+            <param name="genericMessage">a general message describing how this exception happened</param>
+            <param name="policyDescription">a message describing the policy that has been violated</param>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdInvalidCredentialException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdInvalidCredentialException"/> class.
+            </summary>
+            <param name="message">The error message that explains the reason for the exception.</param>
+            <param name="innerException">The exception that is the cause of the current exception, or a null reference (Nothing in Visual Basic) if no inner exception is specified.</param>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdInvalidCredentialException.#ctor(System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdInvalidCredentialException"/> class.
+            </summary>
+            <param name="innerException">The inner exception.</param>
+        </member>
+        <member name="T:Crowd.Rest.Client.CrowdInvalidEmailAddressException">
+            <summary>
+            Thrown when the email address is not valid.
+            </summary>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdInvalidEmailAddressException.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdInvalidEmailAddressException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdInvalidEmailAddressException"/> class.
+            </summary>
+            <param name="message">The message that describes the error.</param>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdInvalidEmailAddressException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdInvalidEmailAddressException"/> class.
+            </summary>
+            <param name="message">The error message that explains the reason for the exception.</param>
+            <param name="innerException">The exception that is the cause of the current exception, or a null reference (Nothing in Visual Basic) if no inner exception is specified.</param>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdInvalidEmailAddressException.#ctor(System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdInvalidEmailAddressException"/> class.
+            </summary>
+            <param name="innerException">The inner exception.</param>
+        </member>
+        <member name="T:Crowd.Rest.Client.CrowdInvalidGroupException">
+            <summary>
+            Thrown to indicate an invalid model group.
+            </summary>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdInvalidGroupException.#ctor(Crowd.Rest.Client.Entity.Group,System.Exception)">
+            <summary>
+            Constructs a new <code>CrowdInvalidGroupException</code> with the invalid group given and a cause.
+            </summary>
+            <param name="group">the invalid group</param>
+            <param name="innerException">the inner exception (a null value is permitted)</param>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdInvalidGroupException.#ctor(Crowd.Rest.Client.Entity.Group,System.String)">
+            <summary>
+            Constructs a new <code>CrowdInvalidGroupException</code> with the invalid group and
+            </summary>
+            <param name="group">invalid group</param>
+            <param name="message">detail message</param>
+        </member>
+        <member name="T:Crowd.Rest.Client.CrowdInvalidServiceException">
+            <summary>
+            Thrown when a Crowd client is not communicating with a valid Crowd service.
+            @since v2.1
+            </summary>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdInvalidServiceException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdInvalidServiceException"/> class.
+            </summary>
+            <param name="message">The message.</param>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdInvalidServiceException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdInvalidServiceException"/> class.
+            </summary>
+            <param name="message">The message.</param>
+            <param name="innerException">The inner exception.</param>
+        </member>
+        <member name="T:Crowd.Rest.Client.CrowdInvalidTokenException">
+            <summary>
+            Thrown when an invalid token is provided.
+            </summary>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdInvalidTokenException.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="T:Crowd.Rest.Client.CrowdInvalidUserException">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Crowd.Rest.Client.CrowdInvalidUserException.User">
+            <summary>
+            Gets the user.
+            </summary>
+            <value>
+            The user.
+            </value>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdInvalidUserException.#ctor(Crowd.Rest.Client.Entity.User,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdInvalidUserException"/> class.
+            </summary>
+            <param name="user">The user.</param>
+            <param name="message">The message.</param>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdInvalidUserException.#ctor(Crowd.Rest.Client.Entity.User,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdInvalidUserException"/> class.
+            </summary>
+            <param name="user">The user.</param>
+            <param name="innerException">The inner exception.</param>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdInvalidUserException.#ctor(Crowd.Rest.Client.Entity.User,System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdInvalidUserException"/> class.
+            </summary>
+            <param name="user">The user.</param>
+            <param name="message">The message.</param>
+            <param name="innerException">The inner exception.</param>
+        </member>
+        <member name="T:Crowd.Rest.Client.CrowdMembershipAlreadyExistsException">
+            <summary>
+            Thrown to indicate that a membership cannot be added because it already exists.
+            </summary>
+        </member>
+        <member name="P:Crowd.Rest.Client.CrowdMembershipAlreadyExistsException.ChildEntity">
+            <summary>
+            Gets the child entity.
+            </summary>
+            <value>
+            The child entity.
+            </value>
+        </member>
+        <member name="P:Crowd.Rest.Client.CrowdMembershipAlreadyExistsException.ParentEntity">
+            <summary>
+            Gets the parent entity.
+            </summary>
+            <value>
+            The parent entity.
+            </value>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdMembershipAlreadyExistsException.#ctor(System.Int64,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdMembershipAlreadyExistsException"/> class.
+            </summary>
+            <param name="directoryId">The directory identifier.</param>
+            <param name="childEntity">The child entity.</param>
+            <param name="parentEntity">The parent entity.</param>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdMembershipAlreadyExistsException.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdMembershipAlreadyExistsException"/> class.
+            </summary>
+            <param name="childEntity">The child entity.</param>
+            <param name="parentEntity">The parent entity.</param>
+        </member>
+        <member name="T:Crowd.Rest.Client.CrowdMembershipNotFoundException">
+            <summary>
+            Used to denote that a particular USER-GROUP or GROUP-GROUP membership
+            does not exist.
+            This could be thrown in cases where the calling code attempts to remove
+            a user from a group when the user is not a direct member of the group, etc.
+            </summary>
+        </member>
+        <member name="P:Crowd.Rest.Client.CrowdMembershipNotFoundException.ChildName">
+            <summary>
+            Gets the name of the child.
+            </summary>
+            <value>
+            The name of the child.
+            </value>
+        </member>
+        <member name="P:Crowd.Rest.Client.CrowdMembershipNotFoundException.ParentName">
+            <summary>
+            Gets the name of the parent.
+            </summary>
+            <value>
+            The name of the parent.
+            </value>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdMembershipNotFoundException.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdMembershipNotFoundException"/> class.
+            </summary>
+            <param name="childName">Name of the child.</param>
+            <param name="parentName">Name of the parent.</param>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdMembershipNotFoundException.#ctor(System.String,System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdMembershipNotFoundException"/> class.
+            </summary>
+            <param name="childName">Name of the child.</param>
+            <param name="parentName">Name of the parent.</param>
+            <param name="innerException">The inner exception.</param>
+        </member>
+        <member name="T:Crowd.Rest.Client.CrowdNestedGroupsNotSupportedException">
+            <summary>
+            Thrown when a user attempts to add a group to another group in a Directory that does not support nested groups.
+            </summary>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdNestedGroupsNotSupportedException.#ctor(System.Int64)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdNestedGroupsNotSupportedException"/> class.
+            </summary>
+            <param name="directoryId">The directory identifier.</param>
+        </member>
+        <member name="T:Crowd.Rest.Client.CrowdObjectAlreadyExistsException">
+            <summary>
+            @since v2.7
+            </summary>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdObjectAlreadyExistsException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdObjectAlreadyExistsException"/> class.
+            </summary>
+            <param name="message">The message that describes the error.</param>
+        </member>
+        <member name="T:Crowd.Rest.Client.CrowdObjectNotFoundException">
+            <summary>
+            Thrown when an entity is not found.
+            </summary>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdObjectNotFoundException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdObjectNotFoundException"/> class.
+            </summary>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdObjectNotFoundException.#ctor(System.Object,System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdObjectNotFoundException"/> class.
+            </summary>
+            <param name="entityClass">The entity class.</param>
+            <param name="identifier">The identifier.</param>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdObjectNotFoundException.#ctor(System.String)">
+            <summary>
+            Constructs a new exception with the specified detail message.
+            </summary>
+            <param name="message">the detail message</param>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdObjectNotFoundException.#ctor(System.String,System.Exception)">
+            <summary>
+            Constructs a new exception with the specified detail message and cause.
+            </summary>
+            <param name="message">the detail message</param>
+            <param name="innerException">the inner exception</param>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdObjectNotFoundException.#ctor(System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdObjectNotFoundException"/> class.
+            </summary>
+            <param name="innerException">The inner exception.</param>
+        </member>
+        <member name="T:Crowd.Rest.Client.CrowdOperationFailedException">
+            <summary>
+            Represents an error when executing an operation on the remote directory 
+            failed for some reason. E.g. network error, LDAP errors.
+            </summary>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdOperationFailedException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdOperationFailedException"/> class.
+            </summary>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdOperationFailedException.#ctor(System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdOperationFailedException"/> class.
+            </summary>
+            <param name="innerException">The inner exception.</param>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdOperationFailedException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdOperationFailedException"/> class.
+            </summary>
+            <param name="message">The message that describes the error.</param>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdOperationFailedException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdOperationFailedException"/> class.
+            </summary>
+            <param name="message">The error message that explains the reason for the exception.</param>
+            <param name="innerException">The exception that is the cause of the current exception, or a null reference (Nothing in Visual Basic) if no inner exception is specified.</param>
+        </member>
+        <member name="T:Crowd.Rest.Client.CrowdPermissionException">
+            <summary>
+            Permission Exception this Exception will handle Exceptions to do with CRUD operations
+            on Applications, Directories etc.
+            </summary>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdPermissionException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdPermissionException"/> class.
+            </summary>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdPermissionException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdPermissionException"/> class.
+            </summary>
+            <param name="message">The message that describes the error.</param>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdPermissionException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdPermissionException"/> class.
+            </summary>
+            <param name="message">The error message that explains the reason for the exception.</param>
+            <param name="innerException">The exception that is the cause of the current exception, or a null reference (Nothing in Visual Basic) if no inner exception is specified.</param>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdPermissionException.#ctor(System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdPermissionException"/> class.
+            </summary>
+            <param name="innerException">The inner exception.</param>
+        </member>
+        <member name="T:Crowd.Rest.Client.CrowdUnsupportedApiException">
+            <summary>
+            Failure because this API call is only supported by a later version of Crowd.
+            </summary>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdUnsupportedApiException.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdUnsupportedApiException"/> class.
+            </summary>
+            <param name="requiredVersion">The required version.</param>
+            <param name="functionality">The functionality.</param>
+        </member>
+        <member name="T:Crowd.Rest.Client.CrowdUserNotFoundException">
+            <summary>
+            Thrown when the specified user could not be found.
+            </summary>
+        </member>
+        <member name="P:Crowd.Rest.Client.CrowdUserNotFoundException.UserName">
+            <summary>
+            Gets the name of the user.
+            </summary>
+            <value>
+            The name of the user.
+            </value>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdUserNotFoundException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdUserNotFoundException"/> class.
+            </summary>
+            <param name="userName">Name of the user.</param>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdUserNotFoundException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdUserNotFoundException"/> class.
+            </summary>
+            <param name="userName">Name of the user.</param>
+            <param name="innerException">The inner exception.</param>
+        </member>
+        <member name="T:Crowd.Rest.Client.CrowdRestException">
+            <summary>
+            Crowd Rest API exception class
+            </summary>
+        </member>
+        <member name="P:Crowd.Rest.Client.CrowdRestException.Error">
+            <summary>
+            Gets the error.
+            </summary>
+            <value>
+            The error.
+            </value>
+        </member>
+        <member name="P:Crowd.Rest.Client.CrowdRestException.StatusCode">
+            <summary>
+            Gets the status code.
+            </summary>
+            <value>
+            The status code.
+            </value>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdRestException"/> class.
+            </summary>
+            <param name="message">The message.</param>
+            <param name="inner">The inner.</param>
+        </member>
+        <member name="M:Crowd.Rest.Client.CrowdRestException.#ctor(System.String,System.Exception,Crowd.Rest.Client.Entity.Error,System.Net.HttpStatusCode)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Crowd.Rest.Client.CrowdRestException"/> class.
+            </summary>
+            <param name="message">The message.</param>
+            <param name="inner">The inner.</param>
+            <param name="error">The error.</param>
+            <param name="statusCode">The status code.</param>
+        </member>
+        <member name="T:Crowd.Web.Security.CrowdMembershipProvider">
+            <summary>
+            
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Crowd.Web.Security.CrowdMembershipProvider.Initialize(System.String,System.Collections.Specialized.NameValueCollection)" -->
+        <member name="M:Crowd.Web.Security.CrowdMembershipProvider.GetConfigValue(System.String,System.String)">
+            <summary>
+            Gets the configuration value.
+            </summary>
+            <param name="configValue">The configuration value.</param>
+            <param name="defaultValue">The default value.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Crowd.Web.Security.CrowdMembershipProvider.ConvertJavaTimeStampToDateTime(System.Double)">
+            <summary>
+            Converts a Java timestamp to DateTime.
+            </summary>
+            <param name="javaTimeStamp">The Java timestamp.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Crowd.Web.Security.CrowdMembershipUser">
+            <summary>
+            Test
+            </summary>
+        </member>
+        <member name="T:Crowd.Web.Security.CrowdRoleProvider">
+            <summary>
+            An ASP.NET RoleProvider for a remote Atlassian Crowd Server.
+            </summary>
+        </member>
+        <member name="P:Crowd.Web.Security.CrowdRoleProvider.ApplicationName">
+            <summary>
+            Gets or sets the name of the application to store and retrieve role information for.
+            </summary>
+            <returns>The name of the application to store and retrieve role information for.</returns>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="T:System.NotSupportedException"></exception>
+        </member>
+        <member name="P:Crowd.Web.Security.CrowdRoleProvider.UseNestedGroups">
+            <summary>
+            Gets a value indicating whether enable nested group support for the application.
+            </summary>
+            <value>
+            <c>true</c> if nested groups should be enabled; otherwise, <c>false</c>.
+            </value>
+            <exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:Crowd.Web.Security.CrowdRoleProvider.Initialize(System.String,System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            Initializes the provider.
+            </summary>
+            <param name="name">The friendly name of the provider.</param>
+            <param name="config">A collection of the name/value pairs representing the provider-specific attributes specified in the configuration for this provider.</param>
+            <exception cref="T:System.ArgumentNullException">config</exception>
+            <exception cref="T:System.Configuration.Provider.ProviderException"></exception>
+        </member>
+        <member name="M:Crowd.Web.Security.CrowdRoleProvider.AddUsersToRoles(System.String[],System.String[])">
+            <summary>
+            Adds the specified user names to the specified roles for the configured applicationName.
+            </summary>
+            <param name="usernames">A string array of user names to be added to the specified roles.</param>
+            <param name="roleNames">A string array of the role names to add the specified user names to.</param>
+            <exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:Crowd.Web.Security.CrowdRoleProvider.CreateRole(System.String)">
+            <summary>
+            Adds a new role to the data source for the configured applicationName.
+            </summary>
+            <param name="roleName">The name of the role to create.</param>
+            <exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:Crowd.Web.Security.CrowdRoleProvider.DeleteRole(System.String,System.Boolean)">
+            <summary>
+            Removes a role from the data source for the configured applicationName.
+            </summary>
+            <param name="roleName">The name of the role to delete.</param>
+            <param name="throwOnPopulatedRole">If true, throw an exception if <paramref name="roleName" /> has one or more members and do not delete <paramref name="roleName" />.</param>
+            <returns>
+            true if the role was successfully deleted; otherwise, false.
+            </returns>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="T:System.Configuration.Provider.ProviderException"></exception>
+        </member>
+        <member name="M:Crowd.Web.Security.CrowdRoleProvider.FindUsersInRole(System.String,System.String)">
+            <summary>
+            Gets an array of user names in a role where the user name contains the specified user name to match.
+            </summary>
+            <param name="roleName">The role to search in.</param>
+            <param name="usernameToMatch">The user name to search for.</param>
+            <returns>
+            A string array containing the names of all the users where the user name matches <paramref name="usernameToMatch" /> and the user is a member of the specified role.
+            </returns>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="T:System.Configuration.Provider.ProviderException"></exception>
+        </member>
+        <member name="M:Crowd.Web.Security.CrowdRoleProvider.GetAllRoles">
+            <summary>
+            Gets a list of all the roles for the configured applicationName.
+            </summary>
+            <returns>
+            A string array containing the names of all the roles stored in the data source for the configured applicationName.
+            </returns>
+            <exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:Crowd.Web.Security.CrowdRoleProvider.GetRolesForUser(System.String)">
+            <summary>
+            Gets a list of the roles that a specified user is in for the configured applicationName.
+            </summary>
+            <param name="username">The user to return a list of roles for.</param>
+            <returns>
+            A string array containing the names of all the roles that the specified user is in for the configured applicationName.
+            </returns>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="T:System.Configuration.Provider.ProviderException"></exception>
+        </member>
+        <member name="M:Crowd.Web.Security.CrowdRoleProvider.GetUsersInRole(System.String)">
+            <summary>
+            Gets a list of users in the specified role for the configured applicationName.
+            </summary>
+            <param name="roleName">The name of the role to get the list of users for.</param>
+            <returns>
+            A string array containing the names of all the users who are members of the specified role for the configured applicationName.
+            </returns>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="T:System.Configuration.Provider.ProviderException"></exception>
+        </member>
+        <member name="M:Crowd.Web.Security.CrowdRoleProvider.IsUserInRole(System.String,System.String)">
+            <summary>
+            Gets a value indicating whether the specified user is in the specified role for the configured applicationName.
+            </summary>
+            <param name="username">The user name to search for.</param>
+            <param name="roleName">The role to search in.</param>
+            <returns>
+            true if the specified user is in the specified role for the configured applicationName; otherwise, false.
+            </returns>
+            <exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:Crowd.Web.Security.CrowdRoleProvider.RemoveUsersFromRoles(System.String[],System.String[])">
+            <summary>
+            Removes the specified user names from the specified roles for the configured applicationName.
+            </summary>
+            <param name="usernames">A string array of user names to be removed from the specified roles.</param>
+            <param name="roleNames">A string array of role names to remove the specified user names from.</param>
+            <exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:Crowd.Web.Security.CrowdRoleProvider.RoleExists(System.String)">
+            <summary>
+            Gets a value indicating whether the specified role name already exists in the role data source for the configured applicationName.
+            </summary>
+            <param name="roleName">The name of the role to search for in the data source.</param>
+            <returns>
+            true if the role name already exists in the data source for the configured applicationName; otherwise, false.
+            </returns>
+            <exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:Crowd.Web.Security.CrowdRoleProvider.GetConfigValue(System.String,System.String)">
+            <summary>
+            Gets the configuration value.
+            </summary>
+            <param name="configValue">The configuration value.</param>
+            <param name="defaultValue">The default value.</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

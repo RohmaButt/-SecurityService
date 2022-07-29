@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Security_ManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="ApplicationPermission_Assignment">
+    <Key>
+      <PropertyRef Name="AppPermissionId" />
+    </Key>
+    <Property Name="AppPermissionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AppPermissionKey" Type="uniqueidentifier" />
+    <Property Name="AppKey" Type="uniqueidentifier" />
+    <Property Name="PermissionKey" Type="uniqueidentifier" />
+    <Property Name="IsActive" Type="bit" />
+  </EntityType>
+  <EntityType Name="ContactAttributes">
+    <Key>
+      <PropertyRef Name="ContactAttributeId" />
+    </Key>
+    <Property Name="ContactAttributeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Key" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="Value" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="Type" Type="tinyint" Nullable="false" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="SortOrder" Type="int" />
+  </EntityType>
+  <EntityType Name="Permission_Levels">
+    <Key>
+      <PropertyRef Name="PermissionLevelId" />
+    </Key>
+    <Property Name="PermissionLevelId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PermissionLevelKey" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="PermissionLevelName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" MaxLength="150" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Permissions">
+    <Key>
+      <PropertyRef Name="PermissionId" />
+    </Key>
+    <Property Name="PermissionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PermissionKey" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="100" />
+    <Property Name="Description" Type="varchar" MaxLength="150" Nullable="false" />
+    <Property Name="URL" Type="nvarchar" MaxLength="50" />
+    <Property Name="Key" Type="nvarchar" MaxLength="50" />
+    <Property Name="PermissionTypeKey" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="PermissionLevelKey" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="CSSClass" Type="varchar" MaxLength="100" />
+    <Property Name="DisplayText" Type="varchar" MaxLength="150" />
+    <Property Name="SortOrder" Type="int" />
+    <Property Name="ParentKey" Type="uniqueidentifier" />
+  </EntityType>
+  <EntityType Name="PermissionTypes">
+    <Key>
+      <PropertyRef Name="PermissionTypeId" />
+    </Key>
+    <Property Name="PermissionTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PermissionTypeKey" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" />
+    <Property Name="Description" Type="nvarchar" MaxLength="150" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="RequestLogs">
+    <Key>
+      <PropertyRef Name="RequestId" />
+    </Key>
+    <Property Name="RequestId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RequestURL" Type="nvarchar" MaxLength="250" />
+    <Property Name="RequestedBy" Type="nvarchar" MaxLength="250" />
+    <Property Name="CallerApplication" Type="nchar" MaxLength="100" />
+    <Property Name="DateTime" Type="datetime" />
+  </EntityType>
+  <EntityType Name="RolePermission_Template">
+    <Key>
+      <PropertyRef Name="RolePermissionTemplateId" />
+    </Key>
+    <Property Name="RolePermissionTemplateId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RolePermissionTemplateKey" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="RoleKey" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="PermissionKey" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Roles">
+    <Key>
+      <PropertyRef Name="RoleId" />
+    </Key>
+    <Property Name="RoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RoleKey" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Description" Type="varchar" MaxLength="150" />
+    <Property Name="IsPrimary" Type="bit" Nullable="false" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SecurityApps">
+    <Key>
+      <PropertyRef Name="AppId" />
+    </Key>
+    <Property Name="AppId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AppKey" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="AppName" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SecurityApps_Configuration">
+    <Key>
+      <PropertyRef Name="ConfigId" />
+    </Key>
+    <Property Name="ConfigId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AppKey" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="ConfigKey" Type="varchar" MaxLength="150" Nullable="false" />
+    <Property Name="ConfigValue" Type="varchar" MaxLength="150" Nullable="false" />
+    <Property Name="ConfigType" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="User_Attributes_Security">
+    <Key>
+      <PropertyRef Name="AttributeSecurityId" />
+    </Key>
+    <Property Name="AttributeSecurityId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PersonKey" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="AttributeKey" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="AccessLevel" Type="tinyint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UserPermission_Assignment">
+    <Key>
+      <PropertyRef Name="UserPermissionAssignmentId" />
+    </Key>
+    <Property Name="UserPermissionAssignmentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserPermissionAssignmentKey" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="UserKey" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="PermissionKey" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UserRole_Rel">
+    <Key>
+      <PropertyRef Name="UserRoleRelId" />
+    </Key>
+    <Property Name="UserRoleRelId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserRoleRelKey" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="UserKey" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="RoleKey" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserKey" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="UserName" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="CanImpersonate" Type="bit" Nullable="false" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="ApprovalStatus" Type="smallint" Nullable="false" />
+    <Property Name="UserRemoteKey" Type="uniqueidentifier" />
+    <Property Name="SecQ" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="SecA" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="100" />
+    <Property Name="OutlookGenieAttrMapping" Type="nvarchar(max)" />
+    <Property Name="ETLApprovalStatus" Type="smallint" Nullable="false" />
+    <Property Name="GenieMobileApproval" Type="smallint" Nullable="false" />
+    <Property Name="JiraMobileApproval" Type="smallint" Nullable="false" />
+    <Property Name="PMOApproval" Type="smallint" Nullable="false" />
+    <Property Name="DMSMACApproval" Type="smallint" Nullable="false" />
+    <Property Name="IsAdmin" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UserSession_Logs">
+    <Key>
+      <PropertyRef Name="UserSessionLogId" />
+    </Key>
+    <Property Name="UserSessionLogId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SessionId" Type="int" Nullable="false" />
+    <Property Name="AccessURL" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="DateTime" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UserSessions">
+    <Key>
+      <PropertyRef Name="SessionId" />
+    </Key>
+    <Property Name="SessionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ASPNETSessionID" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="UserKey" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="StartDate" Type="datetime" Nullable="false" />
+    <Property Name="EndDate" Type="datetime" />
+    <Property Name="Expired" Type="bit" Nullable="false" />
+    <Property Name="IPAddress" Type="nvarchar" MaxLength="50" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="SessionStatus" Type="tinyint" Nullable="false" />
+    <Property Name="MarkedAsSuspicious" Type="bit" />
+    <Property Name="CrowdToken" Type="nvarchar" MaxLength="200" />
+  </EntityType>
+  <EntityContainer Name="Security_ManagementModelStoreContainer">
+    <EntitySet Name="ApplicationPermission_Assignment" EntityType="Self.ApplicationPermission_Assignment" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ContactAttributes" EntityType="Self.ContactAttributes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Permission_Levels" EntityType="Self.Permission_Levels" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Permissions" EntityType="Self.Permissions" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PermissionTypes" EntityType="Self.PermissionTypes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RequestLogs" EntityType="Self.RequestLogs" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RolePermission_Template" EntityType="Self.RolePermission_Template" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SecurityApps" EntityType="Self.SecurityApps" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SecurityApps_Configuration" EntityType="Self.SecurityApps_Configuration" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User_Attributes_Security" EntityType="Self.User_Attributes_Security" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserPermission_Assignment" EntityType="Self.UserPermission_Assignment" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserRole_Rel" EntityType="Self.UserRole_Rel" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserSession_Logs" EntityType="Self.UserSession_Logs" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserSessions" EntityType="Self.UserSessions" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>
